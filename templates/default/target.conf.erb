@@ -1,0 +1,42 @@
+default-driver iscsi
+
+<target <%= @params['targetname'] %>>
+
+  <% if  @params['incomingusers'] -%>
+    <% @params['incomingusers'].each do |user, pass| -%>
+  incominguser <%= user %> <%= pass %>
+    <% end -%>
+  <% end -%>
+
+  <% if  @params['outgoingusers'] -%>
+    <% @params['outgoingusers'].each do |user, pass| -%>
+  outgoinguser <%= user %> <%= pass %>
+    <% end -%>
+  <% end -%>
+
+  <% @params['initiatoraddresses'].each do |address| -%>
+  initiator-address <%= address %>
+  <% end -%>
+
+  <% if  @params['backingstores'] -%>
+    <% @params['backingstores'].each do |name, store| -%>
+  <backing-store <%= name %>>
+      <%- store.each do |key, value| -%>    
+    <%= key %>=<%= value %>
+      <% end -%>
+  </backing-store>
+    <% end -%>
+  <% end -%>
+
+  <% if  @params['directstores'] -%>
+    <% @params['backingstores'].each do |name, store| -%>
+  <direct-store <%= name %>>
+      <% store.each do |key, value| -%>    
+    <%= key %>=<%= value %>
+      <% end -%>
+  </backing-store>
+    <% end -%>
+  <% end -%>
+
+</target>
+
